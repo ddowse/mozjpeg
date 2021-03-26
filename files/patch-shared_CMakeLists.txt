@@ -1,0 +1,77 @@
+--- sharedlib/CMakeLists.txt.org	2021-03-26 02:37:55.230999000 +0000
++++ sharedlib/CMakeLists.txt	2021-03-26 02:38:48.073776000 +0000
+@@ -35,13 +35,13 @@
+     set(DEFFILE ../win/jpeg${SO_MAJOR_VERSION}.def)
+   endif()
+ endif()
+-add_library(jpeg SHARED ${JPEG_SRCS} ${DEFFILE} $<TARGET_OBJECTS:simd>
++add_library(${PREFIXNAME}jpeg SHARED ${JPEG_SRCS} ${DEFFILE} $<TARGET_OBJECTS:simd>
+   ${SIMD_OBJS})
+ if(UNIX)
+-  target_link_libraries(jpeg m)
++  target_link_libraries(${PREFIXNAME}jpeg m)
+ endif()
+ 
+-set_target_properties(jpeg PROPERTIES SOVERSION ${SO_MAJOR_VERSION}
++set_target_properties(${PREFIXNAME}jpeg PROPERTIES SOVERSION ${SO_MAJOR_VERSION}
+   VERSION ${SO_MAJOR_VERSION}.${SO_AGE}.${SO_MINOR_VERSION})
+ if(APPLE AND (NOT CMAKE_OSX_DEPLOYMENT_TARGET OR
+               CMAKE_OSX_DEPLOYMENT_TARGET VERSION_GREATER 10.4))
+@@ -51,7 +51,7 @@
+   set_target_properties(jpeg PROPERTIES MACOSX_RPATH 1)
+ endif()
+ if(MAPFLAG)
+-  set_target_properties(jpeg PROPERTIES
++  set_target_properties(${PREFIXNAME}jpeg PROPERTIES
+     LINK_FLAGS "${MAPFLAG}${CMAKE_CURRENT_BINARY_DIR}/../libjpeg.map")
+ endif()
+ if(MSVC)
+@@ -80,10 +80,10 @@
+   endif()
+ endif()
+ 
+-add_executable(cjpeg ../cjpeg.c ../cdjpeg.c ../rdgif.c ../rdppm.c ../rdjpeg.c
++add_executable(${PREFIXNAME}cjpeg ../cjpeg.c ../cdjpeg.c ../rdgif.c ../rdppm.c ../rdjpeg.c
+   ../rdswitch.c ${CJPEG_BMP_SOURCES})
+-set_property(TARGET cjpeg PROPERTY COMPILE_FLAGS ${COMPILE_FLAGS})
+-target_link_libraries(cjpeg jpeg)
++set_property(TARGET ${PREFIXNAME}cjpeg PROPERTY COMPILE_FLAGS ${COMPILE_FLAGS})
++target_link_libraries(${PREFIXNAME}cjpeg ${PREFIXNAME}jpeg)
+ 
+ if(PNG_SUPPORTED)
+   # to avoid finding static library from CMake cache
+@@ -96,23 +96,23 @@
+ 
+   find_package(PNG 1.6 REQUIRED)
+   find_package(ZLIB REQUIRED)
+-  target_include_directories(cjpeg PUBLIC ${PNG_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR})
+-  target_link_libraries(cjpeg ${PNG_LIBRARY} ${ZLIB_LIBRARY})
++  target_include_directories(${PREFIXNAME}cjpeg PUBLIC ${PNG_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR})
++  target_link_libraries(${PREFIXNAME}cjpeg ${PNG_LIBRARY} ${ZLIB_LIBRARY})
+ endif()
+ 
+-add_executable(djpeg ../djpeg.c ../cdjpeg.c ../rdcolmap.c ../rdswitch.c
++add_executable(${PREFIXNAME}djpeg ../djpeg.c ../cdjpeg.c ../rdcolmap.c ../rdswitch.c
+   ../wrgif.c ../wrppm.c ${DJPEG_BMP_SOURCES})
+-set_property(TARGET djpeg PROPERTY COMPILE_FLAGS ${COMPILE_FLAGS})
+-target_link_libraries(djpeg jpeg)
++set_property(TARGET ${PREFIXNAME}djpeg PROPERTY COMPILE_FLAGS ${COMPILE_FLAGS})
++target_link_libraries(${PREFIXNAME}djpeg ${PREFIXNAME}jpeg)
+ 
+-add_executable(jpegtran ../jpegtran.c ../cdjpeg.c ../rdswitch.c ../transupp.c)
+-target_link_libraries(jpegtran jpeg)
+-set_property(TARGET jpegtran PROPERTY COMPILE_FLAGS "${USE_SETMODE}")
++add_executable(${PREFIXNAME}jpegtran ../jpegtran.c ../cdjpeg.c ../rdswitch.c ../transupp.c)
++target_link_libraries(${PREFIXNAME}jpegtran ${PREFIXNAME}jpeg)
++set_property(TARGET ${PREFIXNAME}jpegtran PROPERTY COMPILE_FLAGS "${USE_SETMODE}")
+ 
+-add_executable(jcstest ../jcstest.c)
+-target_link_libraries(jcstest jpeg)
++add_executable(${PREFIXNAME}jcstest ../jcstest.c)
++target_link_libraries(${PREFIXNAME}jcstest ${PREFIXNAME}jpeg)
+ 
+-install(TARGETS jpeg cjpeg djpeg jpegtran
++install(TARGETS ${PREFIXNAME}jpeg ${PREFIXNAME}cjpeg ${PREFIXNAME}djpeg ${PREFIXNAME}jpegtran
+   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

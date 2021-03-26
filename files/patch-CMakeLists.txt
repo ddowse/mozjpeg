@@ -1,0 +1,110 @@
+--- CMakeLists.txt.orig	2021-02-25 22:09:13.000000000 +0000
++++ CMakeLists.txt	2021-03-26 14:54:44.930108000 +0000
+@@ -571,10 +571,10 @@
+ endif()
+ 
+ if(ENABLE_STATIC)
+-  add_library(jpeg-static STATIC ${JPEG_SOURCES} $<TARGET_OBJECTS:simd>
++	add_library(jpeg-static STATIC ${JPEG_SOURCES} $<TARGET_OBJECTS:simd>
+     ${SIMD_OBJS})
+   if(NOT MSVC)
+-    set_target_properties(jpeg-static PROPERTIES OUTPUT_NAME jpeg)
++	  set_target_properties(jpeg-static PROPERTIES OUTPUT_NAME ${PREFIXNAME}jpeg)
+   endif()
+ endif()
+ 
+@@ -638,7 +638,7 @@
+     set_property(TARGET turbojpeg-static PROPERTY COMPILE_FLAGS
+       "-DBMP_SUPPORTED -DPPM_SUPPORTED")
+     if(NOT MSVC)
+-      set_target_properties(turbojpeg-static PROPERTIES OUTPUT_NAME turbojpeg)
++	    set_target_properties(turbojpeg-static PROPERTIES OUTPUT_NAME ${PREFIXNAME}turbojpeg)
+     endif()
+ 
+     add_executable(tjunittest-static tjunittest.c tjutil.c md5/md5.c
+@@ -720,9 +720,9 @@
+   set_property(TARGET jpegtran-static PROPERTY COMPILE_FLAGS "${USE_SETMODE}")
+ endif()
+ 
+-add_executable(rdjpgcom rdjpgcom.c)
++add_executable(${PREFIXNAME}rdjpgcom rdjpgcom.c)
+ 
+-add_executable(wrjpgcom wrjpgcom.c)
++add_executable(${PREFIXNAME}wrjpgcom wrjpgcom.c)
+ 
+ 
+ ###############################################################################
+@@ -1445,15 +1445,15 @@
+         set(DIR ${CMAKE_CURRENT_BINARY_DIR})
+       endif()
+       install(PROGRAMS ${DIR}/tjbench-static${EXE}
+-        DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME tjbench${EXE})
++	      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME ${PREFIXNAME}tjbench${EXE})
+     endif()
+   endif()
+   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/turbojpeg.h
+-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++	  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ endif()
+ 
+ if(ENABLE_STATIC)
+-  install(TARGETS jpeg-static ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++	install(TARGETS jpeg-static ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+   if(NOT ENABLE_SHARED)
+     if(MSVC_IDE OR XCODE)
+       set(DIR "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}")
+@@ -1461,15 +1461,15 @@
+       set(DIR ${CMAKE_CURRENT_BINARY_DIR})
+     endif()
+     install(PROGRAMS ${DIR}/cjpeg-static${EXE}
+-      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME cjpeg${EXE})
++      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME ${PREFIXNAME}cjpeg${EXE})
+     install(PROGRAMS ${DIR}/djpeg-static${EXE}
+-      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME djpeg${EXE})
++      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME ${PREFIXNAME}djpeg${EXE})
+     install(PROGRAMS ${DIR}/jpegtran-static${EXE}
+-      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME jpegtran${EXE})
++      DESTINATION ${CMAKE_INSTALL_BINDIR} RENAME ${PREFIXNAME}jpegtran${EXE})
+   endif()
+ endif()
+ 
+-install(TARGETS rdjpgcom wrjpgcom RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
++install(TARGETS ${PREFIXNAME}rdjpgcom ${PREFIXNAME}wrjpgcom RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+ 
+ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.ijg
+   ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/example.txt
+@@ -1483,16 +1483,27 @@
+     DESTINATION ${CMAKE_INSTALL_DOCDIR})
+ endif()
+ 
+-if(UNIX OR MINGW)
+-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cjpeg.1
+-    ${CMAKE_CURRENT_SOURCE_DIR}/djpeg.1 ${CMAKE_CURRENT_SOURCE_DIR}/jpegtran.1
+-    ${CMAKE_CURRENT_SOURCE_DIR}/rdjpgcom.1
+-    ${CMAKE_CURRENT_SOURCE_DIR}/wrjpgcom.1
+-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
++
++if(UNIX OR MINGW) 
++install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cjpeg.1 
++	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME ${PREFIXNAME}cjpeg.1)
++
++install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/djpeg.1
++	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME ${PREFIXNAME}djpeg.1)
++
++install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/jpegtran.1
++	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME ${PREFIXNAME}pegtran.1)
++
++install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/rdjpgcom.1 
++	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME ${PREFIXNAME}rdjpgcom.1)
++
++install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/wrjpgcom.1 
++	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME ${PREFIXNAME}wrjpgcom.1)
++
+ endif()
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libjpeg.pc
+   ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libturbojpeg.pc
+-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PREFIXNAME}pkgconfig)
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/jerror.h ${CMAKE_CURRENT_SOURCE_DIR}/jmorecfg.h
