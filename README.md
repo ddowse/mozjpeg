@@ -1,4 +1,4 @@
-# mozjpeg
+# FreeBSD Port graphics/mozjpeg
 
 This Patchset comes without any Warranty whatsoever!
 
