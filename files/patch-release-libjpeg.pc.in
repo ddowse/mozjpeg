@@ -6,5 +6,5 @@
  Version: @VERSION@
 -Libs: -L${libdir} -ljpeg
 -Cflags: -I${includedir}
-+Libs: -L${libdir} -lmozjpeg
-+Cflags: -I${includedir}/mozjpeg
++Libs: -L${libdir} -lmozjpeg-jpeg
++Cflags: -I${includedir}/mozjpeg-jpeg

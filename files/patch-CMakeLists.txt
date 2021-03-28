@@ -1,5 +1,5 @@
 --- CMakeLists.txt.orig	2021-02-25 22:09:13.000000000 +0000
-+++ CMakeLists.txt	2021-03-26 14:54:44.930108000 +0000
++++ CMakeLists.txt	2021-03-28 06:04:28.353316000 +0000
 @@ -571,10 +571,10 @@
  endif()
  
@@ -73,7 +73,7 @@
  
  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.ijg
    ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/example.txt
-@@ -1483,16 +1483,27 @@
+@@ -1483,12 +1483,23 @@
      DESTINATION ${CMAKE_INSTALL_DOCDIR})
  endif()
  
@@ -103,8 +103,3 @@
  endif()
  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libjpeg.pc
    ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libturbojpeg.pc
--  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/${PREFIXNAME}pkgconfig)
- 
- install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
-   ${CMAKE_CURRENT_SOURCE_DIR}/jerror.h ${CMAKE_CURRENT_SOURCE_DIR}/jmorecfg.h
