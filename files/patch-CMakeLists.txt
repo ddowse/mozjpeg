@@ -1,5 +1,5 @@
 --- CMakeLists.txt.orig	2021-02-25 22:09:13.000000000 +0000
-+++ CMakeLists.txt	2021-03-28 06:04:28.353316000 +0000
++++ CMakeLists.txt	2021-03-28 06:38:20.642614000 +0000
 @@ -571,10 +571,10 @@
  endif()
  
@@ -73,7 +73,7 @@
  
  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.ijg
    ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/example.txt
-@@ -1483,12 +1483,23 @@
+@@ -1483,14 +1483,25 @@
      DESTINATION ${CMAKE_INSTALL_DOCDIR})
  endif()
  
@@ -101,5 +101,8 @@
 +	DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 RENAME ${PREFIXNAME}wrjpgcom.1)
 +
  endif()
- install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libjpeg.pc
+-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libjpeg.pc
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/mozjpeg.pc
    ${CMAKE_CURRENT_BINARY_DIR}/pkgscripts/libturbojpeg.pc
+   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ 

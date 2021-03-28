@@ -17,8 +17,8 @@ lib/libmozjpeg-turbojpeg.a
 lib/libturbojpeg.so
 lib/libturbojpeg.so.0
 lib/libturbojpeg.so.0.2.0
-libdata/pkgconfig/libjpeg.pc
 libdata/pkgconfig/libturbojpeg.pc
+libdata/pkgconfig/mozjpeg.pc
 man/man1/mozjpeg-cjpeg.1.gz
 man/man1/mozjpeg-djpeg.1.gz
 man/man1/mozjpeg-pegtran.1.gz
